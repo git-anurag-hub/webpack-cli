@@ -93,9 +93,9 @@ function runMigration(currentConfigPath: string, outputConfigPath: string): Prom
 
             diffOutput.forEach((diffLine: Change): void => {
                 if (diffLine.added) {
-                    logger.raw(green(`+ ${diffLine.value}`));
+                    process.stdout.write(green(`+ ${diffLine.value}`));
                 } else if (diffLine.removed) {
-                    logger.raw(red(`- ${diffLine.value}`));
+                    process.stdout.write(red(`- ${diffLine.value}`));
                 }
             });
 
@@ -154,8 +154,7 @@ function runMigration(currentConfigPath: string, outputConfigPath: string): Prom
                 );
         })
         .catch((err: object): void => {
-            const errMsg = '\n ✖ ︎Migration aborted due to some errors:';
-            logger.error(errMsg);
+            logger.error('\n ✖ ︎Migration aborted due to some errors:');
             logger.error(err);
             process.exitCode = 1;
         });
@@ -175,8 +174,7 @@ function runMigration(currentConfigPath: string, outputConfigPath: string): Prom
 export default function migrate(...args: string[]): void | Promise<void> {
     const filePaths = args;
     if (!filePaths.length) {
-        const errMsg = '\n ✖ Please specify a path to your webpack config';
-        logger.error(errMsg);
+        logger.error('\n ✖ Please specify a path to your webpack config\n');
         return;
     }
 
